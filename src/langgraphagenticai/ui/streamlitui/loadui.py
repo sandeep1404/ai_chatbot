@@ -5,6 +5,7 @@ from datetime import date
 from langchain_core.messages import AIMessage,HumanMessage
 from src.langgraphagenticai.ui.uiconfigfile import Config
 
+## added when chatbot with tools is added
 
 class LoadStreamlitUI:
     def __init__(self):
@@ -56,6 +57,17 @@ class LoadStreamlitUI:
             # Use case selection
             self.user_controls["selected_usecase"] = st.selectbox("Select Usecases", usecase_options)
             
+            ## added when chatbot with tools is added
+
+            if self.user_controls["selected_usecase"] =="Chatbot with Tool":
+                # API key input
+                os.environ["TAVILY_API_KEY"] = self.user_controls["TAVILY_API_KEY"] = st.session_state["TAVILY_API_KEY"] = st.text_input("TAVILY API KEY",
+                                                                                                    type="password")
+                # Validate API key
+                if not self.user_controls["TAVILY_API_KEY"]:
+                    st.warning("⚠️ Please enter your TAVILY_API_KEY key to proceed. Don't have? refer : https://app.tavily.com/home")
+            
+
             if "state" not in st.session_state:
                 st.session_state.state = self.initialize_session()
             
